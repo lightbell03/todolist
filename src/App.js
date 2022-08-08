@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Login from './pages/Login';
+import Todo from './pages/Todo';
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 
-function App() {
+export default function App() {
+  const location = useLocation();
+
+  const user = location.state === null ? false : location.state.isLogin;
+
+  const Layout = () => {
+    return (
+      <Outlet />
+    )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={ user ? <Todo /> : <Login />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
-
-export default App;
